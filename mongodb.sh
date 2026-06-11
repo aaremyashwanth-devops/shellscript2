@@ -2,7 +2,7 @@
 
 USER_ID=$(id -u)
 LOG_FOLDER="/var/log/scriptlog"
-LOG_FILE="/var/log/scriptlog/$0.log"
+LOG_FILE="$LOG_FOLDER/$0.log"
 
 R='\033[0;31m'
 G='\033[0;32m'
