@@ -1,32 +1,32 @@
 #!/bin/bash
-USER_ID=$(id -u)
-LOG_FOLDER="/var/log/scriptlog"
-LOG_FILE="/var/log/scriptlog/$0.log"
+# USER_ID=$(id -u)
+# LOG_FOLDER="/var/log/scriptlog"
+# LOG_FILE="/var/log/scriptlog/$0.log"
 
 IAM_ID="ami-0220d79f3f480ecf5"
 SG_ID="sg-0728b5b2ef09a4522"
 DOMAIN_NAME="yashwanthaarem.in"
 ZONE_ID="Z04906112GOBVOQ8X0E9B"
 
-R='\033[0;31m'
-G='\033[0;32m'
-Y='\033[1;33m'
-N='\033[0m'
+# R='\033[0;31m'
+# G='\033[0;32m'
+# Y='\033[1;33m'
+# N='\033[0m'
 
-mkdir -p $LOG_FOLDER
+# mkdir -p $LOG_FOLDER
 
 
-if [ $USER_ID -ne 0 ]; then
-    echo "switch to root user" 
-    exit 1
-fi
-valid(){
-    if [ $1 -ne 0 ]; then
-        echo "not installed" 
-    else
-        echo "installed" 
-    fi
-}
+# if [ $USER_ID -ne 0 ]; then
+#     echo "switch to root user" 
+#     exit 1
+# fi
+# valid(){
+#     if [ $1 -ne 0 ]; then
+#         echo "not installed" 
+#     else
+#         echo "installed" 
+#     fi
+# }
 
 for instance in $@
 do
