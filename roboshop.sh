@@ -31,27 +31,28 @@ valid(){
 for instance in $@
 do
     INSTANCE_ID=$(aws ec2 run-instances \
-    --image-id $IAM_ID \
-    --instance-type "t3.micro" \
-    --security-group-ids $SG_ID \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
-    --query 'Instances[0].InstanceId' \
-    --output text)
+        --image-id $IAM_ID \
+        --instance-type "t3.micro" \
+        --security-group-ids $SG_ID \
+        --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
+        --query 'Instances[0].InstanceId' \
+        --output text)
 
     if [ $instance == "frontend" ];then
         IP=$(aws ec2 describe-instances \
-        --instance-ids $INSTANCE_ID \
-        --query 'Reservations[].Instances[].PublicIpAddress' \
-        --output text)
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[].Instances[].PublicIpAddress' \
+            --output text)
         RECORD_NAME="$DOMAIN_NAME"
     else
         IP=$(aws ec2 describe-instances \
-        --instance-ids $INSTANCE_ID \
-        --query 'Reservations[].Instances[].PrivateIpAddress' \
-        --output text)
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[].Instances[].PrivateIpAddress' \
+            --output text)
         RECORD_NAME="$instance.$DOMAIN_NAME"
     fi
     echo "ipaddress:$IP"
+
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
     --change-batch '{
