@@ -2,10 +2,10 @@
 LOG_FOLDER=var/log/scriptlog
 LOG_FILE=var/log/scriptlog/$0.log
 
-IAM_ID=ami-0220d79f3f480ecf5
-SG_ID=sg-0728b5b2ef09a4522
-DOMAIN_NAME=yashwanthaarem.in
-HOSTED_ID=
+IAM_ID="ami-0220d79f3f480ecf5"
+SG_ID="sg-0728b5b2ef09a4522"
+DOMAIN_NAME="yashwanthaarem.in"
+HOSTED_ID="Z04906112GOBVOQ8X0E9B"
 
 R='\033[0;31m'
 G='\033[0;32m'
@@ -26,7 +26,7 @@ valid(){
     fi
 }
 
-for instance in {$@}
+for instance in $@
 do
 INSTANCE_ID=$(aws ec2 run-instances \
     --image-id $IAM_ID \
