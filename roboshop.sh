@@ -17,7 +17,7 @@ mkdir -p $LOG_FOLDER
 
 
 if [ $USER_ID -ne 0 ]; then
-    echo "switch to root user $R" $>>$LOG_FILE
+    echo "switch to root user" $>>$LOG_FILE
     exit 1
 fi
 valid(){
