@@ -11,7 +11,7 @@ R='\033[0;31m'
 G='\033[0;32m'
 Y='\033[1;33m'
 N='\033[0m'
-
+ mkdir -p scriptlog
 USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
