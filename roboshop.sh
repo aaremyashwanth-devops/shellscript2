@@ -1,4 +1,5 @@
 #!/bin/bash
+USER_ID=$(id -u)
 LOG_FOLDER="/var/log/scriptlog"
 LOG_FILE="/var/log/scriptlog/$0.log"
 
@@ -11,8 +12,9 @@ R='\033[0;31m'
 G='\033[0;32m'
 Y='\033[1;33m'
 N='\033[0m'
- mkdir -p $scriptlog
-USER_ID=$(id -u)
+
+mkdir -p $scriptlog
+
 
 if [ $USER_ID -ne 0 ]; then
     echo "switch to root user $R" $>>$LOG_FILE
