@@ -34,11 +34,11 @@ cd /app
 unzip /tmp/catalogue.zip
 npm install 
 
-cp $current/catalogue.service /etc/systemd/system/catalogue.service
+cp $CURRENT/catalogue.service  /etc/systemd/system/catalogue.service
 systemctl daemon-reload
 
 systemctl enable catalogue 
 systemctl start catalogue
-cp $current/mongo.repo /etc/yum.repos.d/mongo.repo
+cp $CURRENT/mongo.repo  /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y
 mongosh --host $DOMAIN_NAME </app/db/master-data.js
