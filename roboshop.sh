@@ -1,6 +1,6 @@
 #!/bin/bash
-LOG_FOLDER=var/log/scriptlog
-LOG_FILE=var/log/scriptlog/$0.log
+LOG_FOLDER="/var/log/scriptlog"
+LOG_FILE="/var/log/scriptlog/$0.log"
 
 IAM_ID="ami-0220d79f3f480ecf5"
 SG_ID="sg-0728b5b2ef09a4522"
@@ -11,7 +11,7 @@ R='\033[0;31m'
 G='\033[0;32m'
 Y='\033[1;33m'
 N='\033[0m'
- mkdir -p scriptlog
+ mkdir -p $scriptlog
 USER_ID=$(id -u)
 
 if [ $USER_ID -ne 0 ]; then
