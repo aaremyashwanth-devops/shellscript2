@@ -6,7 +6,7 @@ LOG_FILE="/var/log/scriptlog/$0.log"
 IAM_ID="ami-0220d79f3f480ecf5"
 SG_ID="sg-0728b5b2ef09a4522"
 DOMAIN_NAME="yashwanthaarem.in"
-HOSTED_ID="Z04906112GOBVOQ8X0E9B"
+ZONE_ID="Z04906112GOBVOQ8X0E9B"
 
 R='\033[0;31m'
 G='\033[0;32m'
@@ -17,52 +17,51 @@ mkdir -p $LOG_FOLDER
 
 
 if [ $USER_ID -ne 0 ]; then
-    echo "switch to root user" $>>$LOG_FILE
+    echo "switch to root user" 
     exit 1
 fi
 valid(){
     if [ $1 -ne 0 ]; then
-        echo "not installed" $>>$LOG_FILE
+        echo "not installed" 
     else
-        echo "installed" $>>$LOG_FILE
+        echo "installed" 
     fi
 }
 
 for instance in $@
 do
-INSTANCE_ID=$(aws ec2 run-instances \
+    INSTANCE_ID=$(aws ec2 run-instances \
     --image-id $IAM_ID \
-    --count 1 \
-    --instance-type t3.micro \
+    --instance-type "t3.micro" \
     --security-group-ids $SG_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
-    --query 'Instances[*].InstanceId' \
+    --query 'Instances[0].InstanceId' \
     --output text)
 
-    if [ $instance -ne frontend ];then
+    if [ $instance == "frontend" ];then
         IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
-        --query 'Reservations[*].Instances[*].PrivateIpAddress' \
+        --query 'Reservations[].Instances[].PublicIpAddress' \
         --output text)
-        RECORD_NAME=$instance.$DOMAIN_NAME
+        RECORD_NAME="$DOMAIN_NAME"
     else
         IP=$(aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
-        --query 'Reservations[*].Instances[*].PublicIpAddress' \
+        --query 'Reservations[].Instances[].PrivateIpAddress' \
         --output text)
-        RECORD_NAME=$DOMAIN_NAME
+        RECORD_NAME="$instance.$DOMAIN_NAME"
     fi
     echo "ipaddress:$IP"
     aws route53 change-resource-record-sets \
-    --hosted-zone-id Z0123456789ABCDEF \
+    --hosted-zone-id $ZONE_ID \
     --change-batch '{
         "Changes": [{
             "Action": "UPSERT",
             "ResourceRecordSet": {
-                "Name": "$RECORD_NAME",
+                "Name": "'$RECORD_NAME'",
                 "Type": "A",
                 "TTL": 1,
-                "ResourceRecords": [{"Value": "$IP"}]
+                "ResourceRecords": [{"Value": "'$IP'"}]
             }
         }]
     }'
