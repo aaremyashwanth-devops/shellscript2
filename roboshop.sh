@@ -13,7 +13,7 @@ G='\033[0;32m'
 Y='\033[1;33m'
 N='\033[0m'
 
-mkdir -p $scriptlog
+mkdir -p $LOG_FOLDER
 
 
 if [ $USER_ID -ne 0 ]; then
